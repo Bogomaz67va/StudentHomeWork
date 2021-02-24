@@ -24,16 +24,17 @@ class Student:
         average_grade = sum(Student.all_grades(self)) / len(Student.all_grades(self))
         return round(average_grade, 1)
 
-    def comparison_student(self, student):
+    def __lt__(self, other):
         # функция сравнения студентов по средней оценки за домашнее задание
-        if self.average() >= student.average():
-            print(f"{self.name} {self.surname} средняя оценка больше, равно {self.average()}")
+        if self.average() >= other.average():
+            return f"{self.name} {self.surname} средняя оценка больше, равно {self.average()}"
         else:
-            print(f"{self.name} {self.surname} средняя оценка меньше, равно {self.average()}")
+            return f"{self.name} {self.surname} средняя оценка меньше, равно {self.average()}"
 
     def __str__(self):
         try:
-            print(f"Имя: {self.name}\nФамилия:{self.surname}\nСредняя оценка за домашние задания: {Student.average(self)}"
+            print(
+                f"Имя: {self.name}\nФамилия:{self.surname}\nСредняя оценка за домашние задания: {Student.average(self)}"
                 f"\nКурсы в процессе изучения: {self.courses_in_progress}\nЗавершенные курсы: {self.finished_courses}")
         except ZeroDivisionError:
             print("нет курсов")
@@ -78,12 +79,11 @@ class Lecturer(Mentor):
         average_grade = sum(Lecturer.all_grades(self)) / len(Lecturer.all_grades(self))
         return round(average_grade, 1)
 
-    def comparison_lecturer(self, lecturer):
-        # функция сравнения лекторов по средней оценки за лекции
-        if self.average() >= lecturer.average():
-            print(f"{self.name} {self.surname} средняя оценка больше, равно {self.average()}")
+    def __lt__(self, other):
+        if self.average() >= other.average():
+            return f"{self.name} {self.surname} средняя оценка больше, равно {self.average()}"
         else:
-            print(f"{self.name} {self.surname} средняя оценка меньше, равно {self.average()}")
+            return f"{self.name} {self.surname} средняя оценка меньше, равно {self.average()}"
 
     def __str__(self):
         try:
@@ -116,7 +116,6 @@ class Reviewer(Mentor):
 
 
 def courses_average_students(student_list, course):
-
     # подсчет средней оценки за домашние задания по всем студентам в рамках конкретного курса
     # в качестве аргументов принимаем список студентов и название курса
 
@@ -201,10 +200,10 @@ irina_student.lecturer_grades(anton_lecturer, 'C++', 10)
 pety_reviewer.__str__()
 alex_lecturer.__str__()
 ivan_student.__str__()
-# сравнение студентов и лекторов
-ivan_student.comparison_student(irina_student)
-alex_lecturer.comparison_lecturer(igor_lecturer)
 # подсчет средней оценки за домашние задания
 print("")
 courses_average_students(Student.student_list, 'Git')
 courses_average_lecturer(Lecturer.lecturer_list, 'Git')
+# сравнение студентов и лекторов
+print(igor_lecturer > alex_lecturer)
+print(ivan_student < irina_student)
